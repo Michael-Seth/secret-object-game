@@ -42,7 +42,7 @@ export default function SecretObjectGame() {
   const [shuffledObjects, setShuffledObjects] = useState(gameObjects)
   const [showConfetti, setShowConfetti] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(40)
+  const [timeLeft, setTimeLeft] = useState(20)
 
   const maxRounds = 10
   const currentObject = shuffledObjects[currentObjectIndex]
@@ -97,7 +97,7 @@ export default function SecretObjectGame() {
         }
       }
 
-      setTimeLeft(40)
+      setTimeLeft(20)
       setIsTransitioning(false)
     }, 300)
   }
@@ -111,7 +111,7 @@ export default function SecretObjectGame() {
     setCurrentObjectIndex(0)
     setShowConfetti(false)
     setIsTransitioning(false)
-    setTimeLeft(40)
+    setTimeLeft(20)
 
     const shuffled = [...gameObjects].sort(() => Math.random() - 0.5)
     setShuffledObjects(shuffled)
@@ -231,14 +231,14 @@ export default function SecretObjectGame() {
 
           <div className="mt-4">
             <div
-              className={`text-3xl font-bold ${timeLeft <= 10 ? "text-red-500 animate-pulse" : timeLeft <= 20 ? "text-yellow-500" : "text-green-500"}`}
+              className={`text-3xl font-bold ${timeLeft <= 7 ? "text-red-500 animate-pulse" : timeLeft <= 12 ? "text-yellow-500" : "text-green-500"}`}
             >
               ⏰ {timeLeft}s
             </div>
             <div className="w-64 h-2 bg-gray-200 rounded-full mx-auto mt-2">
               <div
-                className={`h-full rounded-full transition-all duration-1000 ${timeLeft <= 10 ? "bg-red-500" : timeLeft <= 20 ? "bg-yellow-500" : "bg-green-500"}`}
-                style={{ width: `${(timeLeft / 40) * 100}%` }}
+                className={`h-full rounded-full transition-all duration-1000 ${timeLeft <= 7 ? "bg-red-500" : timeLeft <= 12 ? "bg-yellow-500" : "bg-green-500"}`}
+                style={{ width: `${(timeLeft / 20) * 100}%` }}
               />
             </div>
           </div>
