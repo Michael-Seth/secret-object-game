@@ -7,7 +7,6 @@ import { Card } from "@/components/ui/card"
 // Sample objects for the game
 const gameObjects = [
   { title: "Banana", img: "/yellow-banana-fruit.png" },
-  { title: "Red Chair", img: "/placeholder-kzncx.png" },
   { title: "Mug", img: "/white-coffee-mug-with-steam.png" },
   { title: "Bicycle", img: "/bicycle.jpg" },
   { title: "Pizza", img: "/delicious-toppings-pizza.png" },
