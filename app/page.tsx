@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 
@@ -15,11 +15,11 @@ const gameObjects = [
   { title: "Airplane", img: "/airplane.jpg" },
   { title: "Airpod", img: "/airpod.jpg" },
   { title: "Cake", img: "/cake.jpg" },
-  { title: "Chair", img: "/chair.jpg" },
+  { title: "Chair", img: "/chair.png" },
   { title: "Glasses", img: "/eye-glass.jpg" },
   { title: "Fan", img: "/fan.jpg" },
   { title: "Football", img: "/football.jpg" },
-  { title: "Keyboard", img: "/Keyboard.jpg" },
+  { title: "Keyboard", img: "/Keyboard.png" },
   { title: "Ladder", img: "/ladder.jpg" },
   { title: "Laptop", img: "/laptop.jpg" },
   { title: "Mouse", img: "/mouse.jpg" },
@@ -58,18 +58,7 @@ export default function SecretObjectGame() {
     }
   }, [showConfetti])
 
-  useEffect(() => {
-    if (gameState === "playing" && !isTransitioning && timeLeft > 0) {
-      const timer = setTimeout(() => {
-        setTimeLeft(timeLeft - 1)
-      }, 1000)
-      return () => clearTimeout(timer)
-    } else if (timeLeft === 0 && gameState === "playing" && !isTransitioning) {
-      nextTurn(false)
-    }
-  }, [timeLeft, gameState, isTransitioning])
-
-  const nextTurn = (addPoint = false) => {
+  const nextTurn = useCallback((addPoint = false) => {
     setIsTransitioning(true)
 
     if (addPoint) {
@@ -99,7 +88,18 @@ export default function SecretObjectGame() {
       setTimeLeft(20)
       setIsTransitioning(false)
     }, 300)
-  }
+  }, [currentTeam, currentObjectIndex, currentRound, maxRounds, shuffledObjects.length])
+
+  useEffect(() => {
+    if (gameState === "playing" && !isTransitioning && timeLeft > 0) {
+      const timer = setTimeout(() => {
+        setTimeLeft(timeLeft - 1)
+      }, 1000)
+      return () => clearTimeout(timer)
+    } else if (timeLeft === 0 && gameState === "playing" && !isTransitioning) {
+      nextTurn(false)
+    }
+  }, [timeLeft, gameState, isTransitioning, nextTurn])
 
   const resetGame = () => {
     setGameState("playing")
@@ -288,6 +288,38 @@ export default function SecretObjectGame() {
           </Button>
         </div>
       </div>
+
+      <style jsx>{`
+        .confetti {
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          background: #f00;
+          animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+          to {
+            transform: translateY(100vh) rotate(360deg);
+          }
+        }
+        
+        .confetti:nth-child(odd) {
+          background: #0f0;
+        }
+        
+        .confetti:nth-child(even) {
+          background: #00f;
+        }
+        
+        .confetti:nth-child(3n) {
+          background: #ff0;
+        }
+        
+        .confetti:nth-child(4n) {
+          background: #f0f;
+        }
+      `}</style>
     </div>
   )
 }
